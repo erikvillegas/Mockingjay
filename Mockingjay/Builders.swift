@@ -46,3 +46,14 @@ public func jsonData(_ data: Data, status: Int = 200, headers: [String:String]? 
     return http(status, headers: headers, download: .content(data))(request)
   }
 }
+
+public func jsonString(_ jsonString: String, status: Int = 200, headers: [String:String]? = nil) -> (_ request: URLRequest) -> Response {
+  return { (request:URLRequest) in
+
+  if let data = jsonString.data(using: .utf8) {
+    return jsonData(data, status: status, headers: headers)(request)
+  }
+        
+  return .failure(NSError(domain: NSExceptionName.internalInconsistencyException.rawValue, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to decode JSON string into data."]))
+  }
+}
