@@ -35,6 +35,9 @@ public func uri(_ uri:String) -> (_ request: URLRequest) -> Bool {
       if template.extract(path) != nil {
         return true
       }
+      else if path.hasSuffix(uri) {
+        return true
+      }
     }
     
     return false
